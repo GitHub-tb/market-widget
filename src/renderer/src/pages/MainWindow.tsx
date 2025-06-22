@@ -9,9 +9,12 @@ import {
     MinusOutlined,
     FullscreenOutlined,
 } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
-import { fetchQuotes } from '../store/slices/quoteSlice';
+import {
+    selectSubscribedSymbols,
+    fetchQuotes,
+} from "../store/slices/quoteSlice";
 import QuoteTable from '../components/QuoteTable';
 import WatchlistPanel from '../components/WatchlistPanel';
 import SettingsPanel from '../components/SettingsPanel';
@@ -21,9 +24,11 @@ const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 
 const MainWindow: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const quotes = useAppSelector(selectQuotes);
+    const loading = useAppSelector((state) => state.quote.isLoading);
     const { theme, isLoading, error } = useAppSelector(state => state.app);
-    const { quotes, subscribedSymbols } = useAppSelector(state => state.quote);
+    const { subscribedSymbols } = useAppSelector(state => state.quote);
     const [selectedMenu, setSelectedMenu] = useState('home');
     const [collapsed, setCollapsed] = useState(false);
 
@@ -89,7 +94,7 @@ const MainWindow: React.FC = () => {
         }
     };
 
-    if (isLoading) {
+    if (loading) {
         return (
             <div className="loading-container">
                 <Spin size="large" />
@@ -118,7 +123,7 @@ const MainWindow: React.FC = () => {
                         <Button
                             icon={<ReloadOutlined />}
                             onClick={handleRefresh}
-                            loading={isLoading}
+                            loading={loading}
                         >
                             刷新
                         </Button>

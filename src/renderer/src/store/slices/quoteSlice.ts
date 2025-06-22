@@ -140,10 +140,13 @@ const quoteSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(fetchQuotes.fulfilled, (state, action) => {
+            .addCase(fetchQuotes.fulfilled, (state, action: PayloadAction<Quote[]>) => {
                 state.isLoading = false;
-                action.payload.forEach(quote => {
-                    state.quotes[quote.symbol] = quote;
+                action.payload.forEach((quote: Quote) => {
+                    const index = state.quotes.findIndex(q => q.symbol === quote.symbol);
+                    if (index !== -1) {
+                        state.quotes[index] = quote;
+                    }
                 });
                 state.lastUpdate = Date.now();
             })

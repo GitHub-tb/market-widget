@@ -2,19 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Button, Space, Typography, Spin } from 'antd';
 import { CloseOutlined, SettingOutlined, ReloadOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { fetchQuotes } from '../store/slices/quoteSlice';
 import QuoteWidget from '../components/widgets/QuoteWidget';
 import '../styles/WidgetWindow.css';
+import {
+    setWidgetConfig,
+    updateWidgetConfig,
+} from "../store/slices/widgetSlice";
 
 const { Title } = Typography;
 
 const WidgetWindow: React.FC = () => {
     const { widgetId } = useParams<{ widgetId: string }>();
-    const dispatch = useDispatch();
-    const { quotes, isLoading } = useAppSelector(state => state.quote);
-    const [widgetConfig, setWidgetConfig] = useState<any>(null);
+    const dispatch = useAppDispatch();
+    const widgetConfig = useAppSelector((state) => state.widget.config);
+    const quotes = useAppSelector((state) => state.quote.quotes);
+    const { isLoading } = useAppSelector(state => state.quote);
 
     useEffect(() => {
         // 加载挂件配置

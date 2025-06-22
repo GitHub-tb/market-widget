@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Tag, Space, Button, Input, message } from 'antd';
 import { SearchOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { fetchQuote, addSubscribedSymbol, removeSubscribedSymbol } from '../store/slices/quoteSlice';
 import { Quote, MarketType } from '@/shared/types/market.types';
 import '../styles/QuoteTable.css';
+import {
+    setSubscribedSymbols,
+    setWatchlist,
+} from "../store/slices/watchlistSlice";
 
 const { Search } = Input;
 
 const QuoteTable: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { quotes, subscribedSymbols, isLoading } = useAppSelector(state => state.quote);
     const [searchText, setSearchText] = useState('');
     const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
@@ -175,7 +179,7 @@ const QuoteTable: React.FC = () => {
             title: '操作',
             key: 'action',
             width: 120,
-            render: (_, record: Quote) => {
+            render: (_: any, record: Quote) => {
                 const isSubscribed = subscribedSymbols.includes(record.symbol);
                 return (
                     <Space size="small">

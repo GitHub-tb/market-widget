@@ -61,7 +61,11 @@ const QuoteWidget: React.FC<QuoteWidgetProps> = ({ symbols, settings = {} }) => 
         };
 
         const config = marketMap[market];
-        return <Tag size="small" color={config.color}>{config.text}</Tag>;
+        if (!config) {
+            return <Tag color="red">Invalid Config</Tag>;
+        }
+
+        return <Tag color={config.color}>{config.text}</Tag>;
     };
 
     const renderQuoteItem = (quote: Quote) => (
