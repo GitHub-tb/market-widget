@@ -77,6 +77,7 @@ export class WidgetManager {
             id: widgetId,
             ...defaultConfig,
             ...config,
+            symbols: config.symbols || [],
         };
         this.configs.set(widgetId, finalConfig);
 

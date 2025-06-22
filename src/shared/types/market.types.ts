@@ -5,16 +5,6 @@ export interface Quote {
     price: number;            // 当前价格
     change: number;           // 涨跌额
     changePercent: number;    // 涨跌幅
-    open: number;             // 开盘价
-    high: number;             // 最高价
-    low: number;              // 最低价
-    prevClose: number;        // 昨收价
-    volume: number;           // 成交量
-    amount: number;           // 成交额
-    marketCap?: number;       // 市值
-    pe?: number;              // 市盈率
-    pb?: number;              // 市净率
-    timestamp: number;        // 时间戳
     market: MarketType;       // 市场类型
     lastUpdate: number;        // 最后更新时间
 }
@@ -24,10 +14,12 @@ export type MarketType = 'SH' | 'SZ' | 'HK' | 'US' | 'NASDAQ';
 
 // K线数据类型
 export interface KlineData {
-    symbol: string;           // 股票代码
-    period: string;           // 周期 (1m, 5m, 15m, 30m, 1h, 1d, 1w, 1M)
-    data: KlineItem[];        // K线数据数组
-    timestamp: number;        // 时间戳
+    timestamp: number;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume: number;
 }
 
 // K线单条数据
