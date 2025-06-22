@@ -8,7 +8,7 @@ import { fetchQuotes } from '../store/slices/quoteSlice';
 import QuoteWidget from '../components/widgets/QuoteWidget';
 import '../styles/WidgetWindow.css';
 import {
-    setWidgetConfig,
+    setWidget,
     updateWidget,
 } from "../store/slices/widgetSlice";
 
@@ -17,7 +17,7 @@ const { Title } = Typography;
 const WidgetWindow: React.FC = () => {
     const { widgetId } = useParams<{ widgetId: string }>();
     const dispatch = useAppDispatch();
-    const widgetConfig = useAppSelector((state) => state.widget.widgetConfig);
+    const widget = useAppSelector((state) => state.widget.widget);
     const quotes = useAppSelector((state) => state.quote.quotes);
     const { isLoading } = useAppSelector((state) => state.quote);
 
@@ -25,17 +25,21 @@ const WidgetWindow: React.FC = () => {
         // 加载挂件配置
         if (widgetId && window.electronAPI) {
             window.electronAPI.getWidgets().then((widgets: any[]) => {
-                const config = widgets.find(w => w.id === widgetId);
-                if (config) {
-                    setWidgetConfig(config);
-                    // 加载股票数据
-                    if (config.symbols && config.symbols.length > 0) {
-                        dispatch(fetchQuotes(config.symbols));
+                if (widgets && widgets.length > 0) {
+                    const currentWidget = widgets.find((w) => w.id === widgetId);
+                    if (currentWidget) {
+                        dispatch(setWidget(currentWidget));
                     }
                 }
             });
         }
     }, [widgetId, dispatch]);
+
+    useEffect(() => {
+        if (widget) {
+            dispatch(fetchQuotes(widget.symbols));
+        }
+    }, [widget, dispatch]);
 
     const handleClose = () => {
         if (window.electronAPI) {
@@ -44,8 +48,8 @@ const WidgetWindow: React.FC = () => {
     };
 
     const handleRefresh = () => {
-        if (widgetConfig) {
-            dispatch(fetchQuotes(widgetConfig.symbols));
+        if (widget) {
+            dispatch(fetchQuotes(widget.symbols));
         }
     };
 
@@ -54,7 +58,7 @@ const WidgetWindow: React.FC = () => {
         console.log('打开设置');
     };
 
-    if (!widgetConfig) {
+    if (!widget) {
         return (
             <div className="widget-loading">
                 <Spin size="large" />
@@ -67,7 +71,7 @@ const WidgetWindow: React.FC = () => {
         <div className="widget-window">
             <div className="widget-header">
                 <div className="widget-title">
-                    <Title level={5}>{widgetConfig.title}</Title>
+                    <Title level={5}>{widget.title}</Title>
                 </div>
                 <div className="widget-controls">
                     <Space>
@@ -93,10 +97,10 @@ const WidgetWindow: React.FC = () => {
             </div>
 
             <div className="widget-content">
-                {widgetConfig.type === 'quote' && (
+                {widget.type === 'quote' && (
                     <QuoteWidget
-                        symbols={widgetConfig.symbols}
-                        settings={widgetConfig.settings}
+                        symbols={widget.symbols}
+                        settings={widget.settings}
                     />
                 )}
             </div>
