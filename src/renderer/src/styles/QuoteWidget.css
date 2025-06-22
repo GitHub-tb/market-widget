@@ -1,0 +1,151 @@
+/* 股票行情挂件样式 */
+.quote-widget {
+    width: 100%;
+    height: 100%;
+    background: var(--background-color);
+}
+
+.quote-widget-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+}
+
+.quote-list {
+    background: var(--background-color);
+}
+
+.quote-list .ant-list-item {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+}
+
+.quote-list .ant-list-item:hover {
+    background: var(--shadow-color);
+}
+
+.quote-list .ant-list-item:last-child {
+    border-bottom: none;
+}
+
+.quote-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.quote-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 80px;
+}
+
+.quote-symbol {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.quote-name {
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.quote-price {
+    text-align: center;
+    min-width: 60px;
+}
+
+.price-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.quote-change {
+    text-align: right;
+    min-width: 60px;
+}
+
+.change-text {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.change-percent-text {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.change-text.positive,
+.change-percent-text.positive {
+    color: var(--error-color);
+}
+
+.change-text.negative,
+.change-percent-text.negative {
+    color: var(--success-color);
+}
+
+.quote-volume {
+    text-align: right;
+    min-width: 50px;
+}
+
+.volume-text {
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.empty-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    color: var(--text-color-secondary);
+}
+
+/* 响应式设计 */
+@media (max-width: 400px) {
+    .quote-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .quote-price,
+    .quote-change,
+    .quote-volume {
+        text-align: left;
+        min-width: auto;
+    }
+
+    .price-text {
+        font-size: 14px;
+    }
+
+    .change-text {
+        font-size: 12px;
+    }
+
+    .change-percent-text {
+        font-size: 11px;
+    }
+}
+
+/* 动画效果 */
+.quote-item {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.quote-list .ant-list-item {
+    animation: slideIn 0.2s ease-out;
+}

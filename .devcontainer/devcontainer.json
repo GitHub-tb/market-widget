@@ -1,0 +1,34 @@
+{
+    "name": "Electron React App",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {
+            "password": "password",
+            "web": "true"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    "forwardPorts": [
+        3000,
+        5901
+    ],
+    "portsAttributes": {
+        "3000": {
+            "label": "Vite Dev Server"
+        },
+        "5901": {
+            "label": "VNC"
+        }
+    },
+    "postCreateCommand": "npm install",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "ms-vscode.vscode-typescript-next"
+            ]
+        }
+    },
+    "remoteUser": "node"
+}

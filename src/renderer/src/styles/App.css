@@ -1,0 +1,152 @@
+/* 应用主样式 */
+.app {
+    width: 100vw;
+    height: 100vh;
+    background: var(--background-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.app.light {
+    --text-color: #000000d9;
+    --text-color-secondary: #00000073;
+    --background-color: #ffffff;
+    --border-color: #d9d9d9;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.app.dark {
+    --text-color: #ffffffd9;
+    --text-color-secondary: #ffffff73;
+    --background-color: #141414;
+    --border-color: #434343;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 主窗口样式 */
+.main-window {
+    height: 100vh;
+    background: var(--background-color);
+}
+
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 48px;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    -webkit-app-region: drag;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.app-title {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    -webkit-app-region: no-drag;
+}
+
+.main-sider {
+    background: var(--background-color);
+    border-right: 1px solid var(--border-color);
+}
+
+.main-menu {
+    border-right: none;
+    background: var(--background-color);
+}
+
+.main-content {
+    background: var(--background-color);
+    padding: 16px;
+}
+
+.content-wrapper {
+    height: 100%;
+    overflow: auto;
+}
+
+/* 挂件窗口样式 */
+.widget-window {
+    width: 100%;
+    height: 100%;
+    background: var(--background-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    -webkit-app-region: drag;
+}
+
+.widget-title {
+    -webkit-app-region: drag;
+}
+
+.widget-controls {
+    -webkit-app-region: no-drag;
+}
+
+.widget-content {
+    flex: 1;
+    padding: 12px;
+    overflow: auto;
+}
+
+.widget-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: var(--background-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 0 8px;
+    }
+
+    .main-content {
+        padding: 8px;
+    }
+
+    .widget-header {
+        padding: 6px 8px;
+    }
+
+    .widget-content {
+        padding: 8px;
+    }
+}
+
+/* 动画效果 */
+.main-window {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.widget-window {
+    animation: slideIn 0.3s ease-out;
+}

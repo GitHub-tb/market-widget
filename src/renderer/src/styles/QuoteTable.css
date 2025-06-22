@@ -1,0 +1,127 @@
+/* 股票行情表格样式 */
+.quote-table-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 8px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-left h3 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.quote-count {
+    color: var(--text-color-secondary);
+    font-size: 14px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.quote-table {
+    flex: 1;
+    background: var(--background-color);
+}
+
+.quote-table .ant-table-thead>tr>th {
+    background: var(--background-color);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.quote-table .ant-table-tbody>tr>td {
+    background: var(--background-color);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.quote-table .ant-table-tbody>tr:hover>td {
+    background: var(--shadow-color);
+}
+
+.symbol-cell {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.name-cell {
+    color: var(--text-color);
+}
+
+.price-cell {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.change-cell {
+    font-weight: 600;
+}
+
+.change-cell.positive {
+    color: var(--error-color);
+}
+
+.change-cell.negative {
+    color: var(--success-color);
+}
+
+.change-percent-cell {
+    font-weight: 600;
+}
+
+.change-percent-cell.positive {
+    color: var(--error-color);
+}
+
+.change-percent-cell.negative {
+    color: var(--success-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-header {
+        padding: 0 4px;
+    }
+
+    .header-left {
+        gap: 8px;
+    }
+
+    .header-left h3 {
+        font-size: 16px;
+    }
+
+    .quote-count {
+        font-size: 12px;
+    }
+}
