@@ -19,14 +19,7 @@ export interface Quote {
 }
 
 // 市场类型
-export enum MarketType {
-    A_SHARE = 'A_SHARE',      // A股
-    H_SHARE = 'H_SHARE',      // 港股
-    US_STOCK = 'US_STOCK',    // 美股
-    FUTURES = 'FUTURES',      // 期货
-    FOREX = 'FOREX',          // 外汇
-    CRYPTO = 'CRYPTO',        // 加密货币
-}
+export type MarketType = 'SH' | 'SZ' | 'HK' | 'US' | 'NASDAQ';
 
 // K线数据类型
 export interface KlineData {
