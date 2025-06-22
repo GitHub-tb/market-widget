@@ -1,9 +1,9 @@
 // Trigger re-compile
 import { app, BrowserWindow, ipcMain, Menu, Tray, nativeImage } from 'electron';
 import path from 'path';
+import DatabaseService from './services/DatabaseService';
 import { DataSourceManager } from './services/DataSourceManager';
 import { WidgetManager } from './services/WidgetManager';
-import { DatabaseService } from './services/DatabaseService';
 
 class MarketWidgetApp {
     private mainWindow: BrowserWindow | null = null;

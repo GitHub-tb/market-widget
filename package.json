@@ -14,7 +14,7 @@
         "dev:main": "tsc -p tsconfig.main.json --watch",
         "dev:renderer": "vite",
         "compile:main": "if exist dist (rd /s /q dist) && npx tsc -p tsconfig.main.json",
-        "build": "tsc && vite build",
+        "build": "tsc -p tsconfig.main.json && vite build",
         "dist": "npm run build && electron-builder",
         "dist:win": "npm run build && electron-builder --win",
         "dist:mac": "npm run build && electron-builder --mac",
