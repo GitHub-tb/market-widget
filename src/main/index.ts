@@ -16,8 +16,8 @@ class MarketWidgetApp {
     constructor() {
         const dbPath = path.join(app.getPath('userData'), 'market-data.db');
         this.databaseService = new DatabaseService(dbPath);
-        this.dataSourceManager = new DataSourceManager(this.databaseService);
-        this.widgetManager = new WidgetManager(this.databaseService);
+        this.dataSourceManager = new DataSourceManager();
+        this.widgetManager = new WidgetManager();
 
         app.on('ready', this.onReady.bind(this));
         app.on('window-all-closed', this.onWindowAllClosed.bind(this));

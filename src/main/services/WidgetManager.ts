@@ -1,30 +1,18 @@
 import { BrowserWindow, screen } from 'electron';
 import * as path from 'path';
-
-export interface WidgetConfig {
-    id: string;
-    type: string;
-    title: string;
-    symbols: string[];
-    position: {
-        x: number;
-        y: number;
-    };
-    size: {
-        width: number;
-        height: number;
-    };
-    settings: Record<string, any>;
-    alwaysOnTop: boolean;
-    opacity: number;
-}
+import { WidgetConfig } from '@/shared/types/widget.types';
+import DatabaseService from './DatabaseService';
+import { app } from 'electron';
 
 export class WidgetManager {
     private widgets: Map<string, BrowserWindow> = new Map();
     private configs: Map<string, WidgetConfig> = new Map();
     private isInitialized = false;
+    private dbService: DatabaseService;
 
     constructor() {
+        const dbPath = path.join(app.getPath('userData'), 'market-data.db');
+        this.dbService = new DatabaseService(dbPath);
         this.loadWidgetConfigs();
     }
 
