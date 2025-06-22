@@ -9,7 +9,7 @@ import QuoteWidget from '../components/widgets/QuoteWidget';
 import '../styles/WidgetWindow.css';
 import {
     setWidgetConfig,
-    updateWidgetConfig,
+    updateWidget,
 } from "../store/slices/widgetSlice";
 
 const { Title } = Typography;
@@ -17,9 +17,9 @@ const { Title } = Typography;
 const WidgetWindow: React.FC = () => {
     const { widgetId } = useParams<{ widgetId: string }>();
     const dispatch = useAppDispatch();
-    const widgetConfig = useAppSelector((state) => state.widget.config);
+    const widgetConfig = useAppSelector((state) => state.widget.widgetConfig);
     const quotes = useAppSelector((state) => state.quote.quotes);
-    const { isLoading } = useAppSelector(state => state.quote);
+    const { isLoading } = useAppSelector((state) => state.quote);
 
     useEffect(() => {
         // 加载挂件配置
@@ -44,7 +44,7 @@ const WidgetWindow: React.FC = () => {
     };
 
     const handleRefresh = () => {
-        if (widgetConfig?.symbols) {
+        if (widgetConfig) {
             dispatch(fetchQuotes(widgetConfig.symbols));
         }
     };

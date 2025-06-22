@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Space, Button, Input, message } from 'antd';
+import { Table, Tag, Space, Button, Input, message, Modal, Typography } from 'antd';
 import { SearchOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { fetchQuote, addSubscribedSymbol, removeSubscribedSymbol } from '../store/slices/quoteSlice';
 import { Quote, MarketType } from '@/shared/types/market.types';
 import '../styles/QuoteTable.css';
-import {
-    setSubscribedSymbols,
-    setWatchlist,
-} from "../store/slices/watchlistSlice";
 
 const { Search } = Input;
 

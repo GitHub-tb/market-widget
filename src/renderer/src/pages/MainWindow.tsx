@@ -2,19 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Menu, Button, Space, Typography, Spin, message } from 'antd';
 import {
     HomeOutlined,
-    PlusOutlined,
+    EyeOutlined,
     SettingOutlined,
+    PlusOutlined,
     ReloadOutlined,
-    CloseOutlined,
-    MinusOutlined,
+    DesktopOutlined,
     FullscreenOutlined,
 } from '@ant-design/icons';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
-import {
-    selectSubscribedSymbols,
-    fetchQuotes,
-} from "../store/slices/quoteSlice";
+import { fetchQuotes } from "../store/slices/quoteSlice";
 import QuoteTable from '../components/QuoteTable';
 import WatchlistPanel from '../components/WatchlistPanel';
 import SettingsPanel from '../components/SettingsPanel';
@@ -25,10 +22,12 @@ const { Title } = Typography;
 
 const MainWindow: React.FC = () => {
     const dispatch = useAppDispatch();
-    const quotes = useAppSelector(selectQuotes);
+    const quotes = useAppSelector((state) => state.quote.quotes);
     const loading = useAppSelector((state) => state.quote.isLoading);
-    const { theme, isLoading, error } = useAppSelector(state => state.app);
-    const { subscribedSymbols } = useAppSelector(state => state.quote);
+    const { theme, error } = useAppSelector((state) => state.app);
+    const subscribedSymbols = useAppSelector(
+        (state) => state.quote.subscribedSymbols
+    );
     const [selectedMenu, setSelectedMenu] = useState('home');
     const [collapsed, setCollapsed] = useState(false);
 
@@ -55,12 +54,11 @@ const MainWindow: React.FC = () => {
             if (window.electronAPI) {
                 await window.electronAPI.createWidget({
                     type: 'quote',
-                    title: '股票行情',
-                    symbols: ['000001', '000002'],
+                    symbols: ['AAPL', 'GOOGL'],
                 });
                 message.success('挂件创建成功');
             }
-        } catch (error) {
+        } catch (err) {
             message.error('创建挂件失败');
         }
     };
@@ -132,7 +130,7 @@ const MainWindow: React.FC = () => {
                 <div className="header-right">
                     <Space>
                         <Button
-                            icon={<MinusOutlined />}
+                            icon={<DesktopOutlined />}
                             onClick={() => handleWindowControl('minimize')}
                             type="text"
                         />
@@ -142,7 +140,7 @@ const MainWindow: React.FC = () => {
                             type="text"
                         />
                         <Button
-                            icon={<CloseOutlined />}
+                            icon={<DesktopOutlined />}
                             onClick={() => handleWindowControl('close')}
                             type="text"
                             danger

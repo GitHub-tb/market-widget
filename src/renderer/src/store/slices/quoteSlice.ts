@@ -134,21 +134,18 @@ const quoteSlice = createSlice({
             })
             .addCase(fetchQuote.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload as string;
+                state.error = action.error.message || 'Failed to fetch quote';
             })
             .addCase(fetchQuotes.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
             .addCase(fetchQuotes.fulfilled, (state, action: PayloadAction<Quote[]>) => {
-                state.isLoading = false;
                 action.payload.forEach((quote: Quote) => {
-                    const index = state.quotes.findIndex(q => q.symbol === quote.symbol);
-                    if (index !== -1) {
-                        state.quotes[index] = quote;
-                    }
+                    state.quotes[quote.symbol] = quote;
                 });
                 state.lastUpdate = Date.now();
+                state.isLoading = false;
             })
             .addCase(fetchQuotes.rejected, (state, action) => {
                 state.isLoading = false;
