@@ -8,37 +8,37 @@ import { WidgetManager } from './services/WidgetManager';
 class MarketWidgetApp {
     private mainWindow: BrowserWindow | null = null;
     private tray: Tray | null = null;
+    private databaseService: DatabaseService;
     private dataSourceManager: DataSourceManager;
     private widgetManager: WidgetManager;
-    private databaseService: DatabaseService;
+    private appIsQuitting = false;
 
     constructor() {
-        this.dataSourceManager = new DataSourceManager();
-        this.widgetManager = new WidgetManager();
-        this.databaseService = new DatabaseService();
+        const dbPath = path.join(app.getPath('userData'), 'market-data.db');
+        this.databaseService = new DatabaseService(dbPath);
+        this.dataSourceManager = new DataSourceManager(this.databaseService);
+        this.widgetManager = new WidgetManager(this.databaseService);
 
-        this.initializeApp();
-    }
-
-    private initializeApp(): void {
-        app.whenReady().then(() => {
-            this.createMainWindow();
-            this.createTray();
-            this.setupIPC();
-            this.initializeServices();
-        });
-
-        app.on('window-all-closed', () => {
-            if (process.platform !== 'darwin') {
-                app.quit();
-            }
-        });
+        app.on('ready', this.onReady.bind(this));
+        app.on('window-all-closed', this.onWindowAllClosed.bind(this));
 
         app.on('activate', () => {
             if (BrowserWindow.getAllWindows().length === 0) {
                 this.createMainWindow();
             }
         });
+    }
+
+    private async onReady(): Promise<void> {
+        this.createMainWindow();
+        this.createTray();
+        this.registerIpcHandlers();
+    }
+
+    private onWindowAllClosed(): void {
+        if (process.platform !== 'darwin') {
+            app.quit();
+        }
     }
 
     private createMainWindow(): void {
@@ -115,7 +115,7 @@ class MarketWidgetApp {
         this.tray.setContextMenu(contextMenu);
     }
 
-    private setupIPC(): void {
+    private registerIpcHandlers(): void {
         // 获取股票行情数据
         ipcMain.handle('get-quote', async (event, symbol: string) => {
             return await this.dataSourceManager.getQuote(symbol);
@@ -167,18 +167,6 @@ class MarketWidgetApp {
             const window = BrowserWindow.fromWebContents(event.sender);
             window?.close();
         });
-    }
-
-    private async initializeServices(): Promise<void> {
-        try {
-            await this.databaseService.initialize();
-            await this.dataSourceManager.initialize();
-            await this.widgetManager.initialize();
-
-            console.log('所有服务初始化完成');
-        } catch (error) {
-            console.error('服务初始化失败:', error);
-        }
     }
 }
 
