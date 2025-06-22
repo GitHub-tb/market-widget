@@ -16,6 +16,7 @@ export interface Quote {
     pb?: number;              // 市净率
     timestamp: number;        // 时间戳
     market: MarketType;       // 市场类型
+    lastUpdate: number;        // 最后更新时间
 }
 
 // 市场类型

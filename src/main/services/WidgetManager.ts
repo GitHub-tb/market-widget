@@ -64,23 +64,20 @@ export class WidgetManager {
     public async createWidget(config?: Partial<WidgetConfig>): Promise<string> {
         const widgetId = config?.id || `widget-${Date.now()}`;
 
-        const defaultConfig: WidgetConfig = {
-            id: widgetId,
+        const defaultConfig: Omit<WidgetConfig, 'id' | 'symbols' | 'config'> = {
             type: 'quote',
             title: '股票行情',
-            symbols: ['000001'],
             position: { x: 100, y: 100 },
             size: { width: 400, height: 300 },
-            settings: {
-                showVolume: true,
-                showChange: true,
-                refreshInterval: 5000,
-            },
             alwaysOnTop: false,
-            opacity: 0.9,
+            opacity: 1,
         };
 
-        const finalConfig = { ...defaultConfig, ...config };
+        const finalConfig: WidgetConfig = {
+            id: widgetId,
+            ...defaultConfig,
+            ...config,
+        };
         this.configs.set(widgetId, finalConfig);
 
         const window = new BrowserWindow({

@@ -95,22 +95,23 @@ export class DataSourceManager extends EventEmitter {
     }
 
     public async getQuote(symbol: string): Promise<Quote> {
-        // In a real app, this would fetch from a live API (e.g., Sina, Yahoo)
-        // For now, we'll just simulate by fetching from DB or returning a mock
-        let quote = this.dbService.getQuote(symbol);
-        if (!quote) {
-            quote = {
-                symbol,
-                name: `${symbol} Name`,
-                price: Math.random() * 100,
-                change: Math.random() * 10 - 5,
-                changePercent: Math.random() * 2 - 1,
-                market: 'NASDAQ',
-                lastUpdate: Date.now(),
-            };
+        const existingQuote = this.dbService.getQuote(symbol);
+        if (existingQuote) {
+            return existingQuote;
         }
-        this.dbService.saveQuote(quote);
-        return quote;
+
+        const newQuote: Quote = {
+            symbol,
+            name: `${symbol} Name`,
+            price: Math.random() * 100,
+            change: Math.random() * 10 - 5,
+            changePercent: Math.random() * 2 - 1,
+            market: 'NASDAQ',
+            lastUpdate: Date.now(),
+        };
+
+        this.dbService.saveQuote(newQuote);
+        return newQuote;
     }
 
     public async getQuotes(symbols: string[]): Promise<Quote[]> {
