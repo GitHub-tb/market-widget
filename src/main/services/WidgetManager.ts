@@ -27,7 +27,7 @@ export class WidgetManager {
                 symbols: ['000001', '000002', '000858'],
                 position: { x: 100, y: 100 },
                 size: { width: 400, height: 300 },
-                settings: {
+                config: {
                     showVolume: true,
                     showChange: true,
                     refreshInterval: 5000,
@@ -77,7 +77,7 @@ export class WidgetManager {
             id: widgetId,
             ...defaultConfig,
             ...config,
-            symbols: config.symbols || [],
+            symbols: config?.symbols || [],
         };
         this.configs.set(widgetId, finalConfig);
 

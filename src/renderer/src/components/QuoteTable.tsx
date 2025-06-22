@@ -71,16 +71,14 @@ const QuoteTable: React.FC = () => {
     };
 
     const getMarketTag = (market: MarketType) => {
-        const marketMap = {
-            [MarketType.A_SHARE]: { color: 'blue', text: 'A股' },
-            [MarketType.H_SHARE]: { color: 'green', text: '港股' },
-            [MarketType.US_STOCK]: { color: 'red', text: '美股' },
-            [MarketType.FUTURES]: { color: 'orange', text: '期货' },
-            [MarketType.FOREX]: { color: 'purple', text: '外汇' },
-            [MarketType.CRYPTO]: { color: 'gold', text: '加密货币' },
+        const marketMap: Record<string, { color: string; text: string }> = {
+            'SH': { color: 'blue', text: '上证' },
+            'SZ': { color: 'cyan', text: '深证' },
+            'HK': { color: 'green', text: '港股' },
+            'US': { color: 'red', text: '美股' },
+            'NASDAQ': { color: 'purple', text: '纳斯达克' },
         };
-
-        const config = marketMap[market];
+        const config = marketMap[market] || { color: 'default', text: market };
         return <Tag color={config.color}>{config.text}</Tag>;
     };
 

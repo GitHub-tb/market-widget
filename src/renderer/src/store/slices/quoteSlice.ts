@@ -40,7 +40,7 @@ export const fetchQuote = createAsyncThunk(
                     volume: Math.floor(Math.random() * 1000000),
                     amount: Math.random() * 10000000,
                     timestamp: Date.now(),
-                    market: MarketType.A_SHARE,
+                    market: 'SH' as MarketType,
                 };
             }
         } catch (error) {
@@ -71,7 +71,7 @@ export const fetchQuotes = createAsyncThunk(
                     volume: Math.floor(Math.random() * 1000000),
                     amount: Math.random() * 10000000,
                     timestamp: Date.now(),
-                    market: MarketType.A_SHARE,
+                    market: 'SH' as MarketType,
                 }));
             }
         } catch (error) {
