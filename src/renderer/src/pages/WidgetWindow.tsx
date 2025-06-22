@@ -8,7 +8,7 @@ import { fetchQuotes } from '../store/slices/quoteSlice';
 import QuoteWidget from '../components/widgets/QuoteWidget';
 import '../styles/WidgetWindow.css';
 import {
-    setWidget,
+    setWidgets,
     updateWidget,
 } from "../store/slices/widgetSlice";
 
@@ -17,7 +17,9 @@ const { Title } = Typography;
 const WidgetWindow: React.FC = () => {
     const { widgetId } = useParams<{ widgetId: string }>();
     const dispatch = useAppDispatch();
-    const widget = useAppSelector((state) => state.widget.widget);
+    const widget = useAppSelector((state) =>
+        state.widget.widgets.find((w) => w.id === widgetId)
+    );
     const quotes = useAppSelector((state) => state.quote.quotes);
     const { isLoading } = useAppSelector((state) => state.quote);
 
@@ -26,9 +28,10 @@ const WidgetWindow: React.FC = () => {
         if (widgetId && window.electronAPI) {
             window.electronAPI.getWidgets().then((widgets: any[]) => {
                 if (widgets && widgets.length > 0) {
+                    dispatch(setWidgets(widgets));
                     const currentWidget = widgets.find((w) => w.id === widgetId);
                     if (currentWidget) {
-                        dispatch(setWidget(currentWidget));
+                        dispatch(fetchQuotes(currentWidget.symbols));
                     }
                 }
             });
